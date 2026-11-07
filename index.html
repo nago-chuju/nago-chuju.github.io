@@ -131,6 +131,79 @@
   .plan details.more { margin-top: 14px; }
   .plan details.more > summary { cursor: pointer; font-weight: bold; color: var(--accent); padding: 8px 10px; border: 1px dashed var(--accent); border-radius: 8px; }
   @media print { .plan details.more > summary { display: none; } }
+  /* ===== 問題ごとの台本（一覧 → 1問の画面） ===== */
+  .qp-meta div { font-size: 14.5px; }
+  .qp-meta b { display: inline-block; min-width: 4.5em; color: var(--sub); font-weight: normal; }
+  .qp-sec { font-weight: bold; margin: 14px 0 6px; }
+  .qp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 8px; }
+  .qp-tile { padding: 8px 4px; text-align: center; border-radius: 10px; }
+  .qp-tile .n { font-size: 22px; font-weight: bold; line-height: 1.3; }
+  .qp-tile .l { font-size: 12px; color: var(--sub); }
+  .qp-nav { display: flex; gap: 6px; align-items: center; margin-left: auto; }
+  .qp-nav button { padding: 4px 10px; }
+  .qp-no { font-weight: bold; font-size: 18px; }
+  .qp-text { font-size: 16.5px; margin: 8px 0 10px; }
+  .qp-ch { padding: 3px 12px; border: 2px solid transparent; border-radius: 999px; display: inline-block; }
+  .qp-ch.ok { border-color: var(--ng); color: var(--ng); font-weight: bold; }
+  /* 答え：赤いわくの帯にして、どこに答えがあるかすぐわかるようにする */
+  .qp-ans, .qp-model { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; background: var(--ngbg); border: 2px solid var(--ng); border-radius: 10px; padding: 8px 12px; margin: 10px 0 6px; }
+  .qp-ans .lb, .qp-model .lb { flex: 0 0 auto; background: var(--ng); color: #fff; font-weight: bold; font-size: 14px; border-radius: 6px; padding: 0 10px; }
+  .qp-ans .ok { color: var(--ng); font-weight: bold; font-size: 19px; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+  .qp-model .ok { color: var(--ng); flex: 1 1 220px; }
+  .qp-model .small { flex: 0 0 100%; }
+  .qp-point { background: var(--warnbg); color: #92400e; border-radius: 10px; padding: 10px 12px; margin-top: 12px; }
+  .qp-exp { background: var(--soft); border-radius: 10px; padding: 10px 12px; margin-top: 10px; }
+  .qp-point h4, .qp-exp h4 { font-size: 14.5px; margin: 0 0 4px; }
+  .qp-point ul, .qp-exp ol { margin: 0; padding-left: 1.3em; }
+  .qp-point li, .qp-exp li { margin: 3px 0; }
+  .qp-hint { font-size: 12.5px; color: var(--sub); text-align: center; margin-top: 10px; }
+  .exp ol { margin: 2px 0; padding-left: 1.3em; }
+  /* 詳しい台本（教科が苦手な講師向け） */
+  .gd-btn { width: 100%; margin-top: 12px; padding: 10px; font-weight: bold; color: var(--accent); border: 2px solid var(--accent); background: #fff; }
+  .gd { margin-top: 10px; border: 2px solid var(--accent); border-radius: 10px; padding: 10px 12px; }
+  .gd h4 { margin: 0 0 6px; font-size: 15px; }
+  .gd .know { background: var(--soft); border-radius: 8px; padding: 8px 10px; margin: 6px 0; }
+  .gd .know b, .gd .alt b { display: block; font-size: 13px; color: var(--accent); }
+  .gd .tk { display: flex; gap: 8px; padding: 4px 0; border-bottom: 1px dotted #e5e7eb; }
+  .gd .who { flex: 0 0 36px; font-size: 11px; font-weight: bold; color: #fff; background: var(--accent); border-radius: 4px; text-align: center; height: 20px; line-height: 20px; margin-top: 3px; }
+  .gd .tk.S .who { background: #059669; }
+  .gd .tk.S span:last-child { color: #047857; }
+  .gd .trouble { background: var(--ngbg); border-radius: 8px; padding: 8px 10px; margin: 6px 0; }
+  .gd .trouble b { display: block; font-size: 13px; color: var(--ng); }
+  .gd .trouble .tq { font-weight: bold; }
+  .gd .alt { background: var(--okbg); border-radius: 8px; padding: 8px 10px; margin: 6px 0; }
+  @media print { .qp-point, .qp-exp, .qp-model, .qp-ans { -webkit-print-color-adjust: exact; print-color-adjust: exact; } .qp-text { font-size: 14px; } }
+  /* ○×で採点 */
+  [hidden] { display: none !important; }
+  .qpick { flex-wrap: wrap; }
+  .ig { flex: 0 0 100%; display: flex; flex-direction: column; gap: 6px; margin: 2px 0 0 28px; }
+  .ig-key { color: var(--ng); font-weight: bold; font-size: 14px; }
+  .ig:empty { display: none; }
+  .ig-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .ig-row .nm { min-width: 4.5em; font-size: 13px; font-weight: bold; }
+  .ig-row > button, .ig-parts button { width: 48px; height: 40px; font-size: 19px; font-weight: bold; padding: 0; color: var(--sub); }
+  .ig-parts { display: flex; gap: 6px; }
+  .ig-parts button { width: auto; padding: 0 10px; font-size: 14px; }
+  .ig-row button.on.ok { background: var(--ok); border-color: var(--ok); color: #fff; }
+  .ig-row button.on.ng { background: var(--ng); border-color: var(--ng); color: #fff; }
+  .ig-row button.on.part { background: var(--warn); border-color: var(--warn); color: #fff; font-size: 14px; }
+  .ig-tot { font-size: 14px; font-weight: bold; margin: 4px 0; }
+  .ig-st { padding: 4px 0; }
+  .ig-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: flex; align-items: center; gap: 10px; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); background: #fff; box-shadow: 0 -2px 8px rgba(0,0,0,.08); }
+  .ig-bar.off { display: none; }
+  .ig-bar.wait { background: var(--warnbg); }
+  .ig-bar.todo { background: #fff; }
+  .ig-bar button.ig-mid { padding: 8px 12px; font-size: 13px; font-weight: normal; color: var(--sub); }
+  .ig-bar.ok { background: var(--okbg); color: var(--ok); font-weight: bold; }
+  .ig-bar-t { flex: 1; min-width: 0; font-size: 14px; }
+  .ig-bar button { padding: 12px 18px; font-size: 16px; font-weight: bold; white-space: nowrap; }
+  .ig-toast { bottom: 90px !important; }
+  .ig-st.fin { background: var(--okbg); border-radius: 8px; padding: 8px 10px; margin: 4px 0; }
+  .ig-done { color: var(--ok); }
+  .ig-miss { font-weight: normal; margin-top: 2px; }
+  .ig-miss b { color: var(--ng); font-size: 17px; }
+  .ig-toast { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); background: #1f2937; color: #fff; border-radius: 20px; padding: 8px 16px; font-size: 14px; z-index: 50; width: max-content; max-width: calc(100% - 32px); text-align: center; }
+  .ig-toast.bad { background: var(--ng); }
   .toolbar { position: sticky; top: 0; z-index: 6; background: #fff; border-bottom: 1px solid var(--line); }
   .toolbar .wrap { padding: 8px 16px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 
@@ -198,15 +271,31 @@ function store(k, v) { try { v == null ? localStorage.removeItem(k) : localStora
 function load(k) { try { return localStorage.getItem(k) || ''; } catch (e) { return ''; } }
 function loading(t) { $app.innerHTML = '<div class="loading">' + esc(t || '読みこみ中…') + '</div>'; }
 
+// ---- 画面の行き来：画面を開くたびに履歴に積み、「‹ 戻る」やスマホ・タブレットのバックキーで1つ前の画面に戻る ----
+const NAV = [null];   // NAV[k]：k番目の画面をもう一度出す関数
+let navK = 0;
+function navTo(fn) { navK++; NAV.length = navK; NAV[navK] = fn; history.pushState({ k: navK }, ''); fn(); }
+function navSwap(fn) { NAV[navK] = fn; history.replaceState({ k: navK }, ''); fn(); }
+/** いちばん下の画面にする（ログインした直後など） */
+function navBase(fn) { navK = 0; NAV.length = 1; NAV[0] = fn; history.replaceState({ k: 0 }, ''); fn(); }
+function goBack() { if (navK > 0) history.back(); }
+window.addEventListener('popstate', e => {
+  const k = e.state && e.state.k;
+  if (k != null && NAV[k]) { navK = k; NAV[k](); }
+});
+const mainScreen = (tab, unit) => () => { S.tab = tab || 'make'; S.unit = unit || null; showMain(); };
+
 // ---- ログイン ----
 function showLogin(err) {
   $app.innerHTML = `<div class="login card">
     <h2 style="margin:4px 0 2px">桜中対策プリント</h2><div class="small">講師用 ／ 小4〜小6</div>
     ${err ? '<div class="err">' + err + '</div>' : ''}
     <div style="margin:16px 0"><input id="code" type="text" placeholder="講師コード" style="width:100%" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
-    <button class="pri" id="go" style="width:100%">入る</button></div>`;
+    <button class="pri" id="go" style="width:100%">入る</button>
+    <div style="margin-top:14px"><button id="adm" class="small" style="border:none;background:none;color:var(--sub);text-decoration:underline">⚙ 管理者</button></div></div>`;
   const go = () => login(document.getElementById('code').value);
   document.getElementById('go').onclick = go;
+  document.getElementById('adm').onclick = () => navTo(() => showAdmin());
   document.getElementById('code').onkeydown = e => { if (e.key === 'Enter') go(); };
 }
 async function login(code) {
@@ -216,22 +305,77 @@ async function login(code) {
     S.code = code; store('sk_code', code);
     S.grade = load('sk_grade') || '小6';
     S.anGrade = S.grade;
-    showMain();
-  } catch (e) { store('sk_code', null); showLogin(errMsg(e)); }
+    navBase(mainScreen('make'));
+  } catch (e) { store('sk_code', null); navBase(() => showLogin(errMsg(e))); }
 }
 async function refresh() { S.data = await run('startApp', S.code); }
+
+// ---- 管理者：講師コード・管理者コード・教室名を変える（一度入れた管理者コードは、その端末に覚えておく） ----
+async function showAdmin(err) {
+  const back = goBack;
+  const saved = err ? '' : load('sk_admin');
+  if (saved) {
+    loading();
+    try { return adminForm(saved, await run('adminGet', saved)); }
+    catch (e) { store('sk_admin', null); err = errMsg(e); }   // 管理者コードが変わっていたら、入れ直してもらう
+  }
+  $app.innerHTML = `<div class="login card" style="text-align:left">
+    <h2 style="margin:4px 0 2px;text-align:center">⚙ 管理者</h2><div class="small" style="text-align:center">講師コードなどを変えるときに使います</div>
+    ${err ? '<div class="err">' + err + '</div>' : ''}
+    <div style="margin:16px 0 8px"><input id="acode" type="text" placeholder="管理者コード" style="width:100%" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+    <button class="pri" id="ago" style="width:100%">入る</button>
+    <div style="margin-top:10px;text-align:center"><button id="aback">‹ 戻る</button></div></div>`;
+  const go = async () => {
+    const ac = document.getElementById('acode').value.trim();
+    loading();
+    try { const cur = await run('adminGet', ac); store('sk_admin', ac); adminForm(ac, cur); } catch (e) { showAdmin(errMsg(e)); }
+  };
+  document.getElementById('ago').onclick = go;
+  document.getElementById('acode').onkeydown = e => { if (e.key === 'Enter') go(); };
+  document.getElementById('aback').onclick = back;
+}
+function adminForm(ac, cur, msg, err) {
+  const back = goBack;
+  const field = (id, label, now, note) => `<div style="margin:12px 0 4px"><b>${label}</b>${now != null ? `<span class="small">　今：${esc(now)}</span>` : ''}</div>
+    <input id="${id}" type="text" style="width:100%" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="変えるときだけ入力">${note ? `<div class="small">${note}</div>` : ''}`;
+  $app.innerHTML = `<div class="login card" style="text-align:left;max-width:420px">
+    <h2 style="margin:4px 0 2px;text-align:center">⚙ 管理者</h2>
+    ${msg ? '<div class="msg">' + msg + '</div>' : ''}${err ? '<div class="err">' + err + '</div>' : ''}
+    ${field('nt', '講師コード', cur.teacherCode, '変えると、ほかの講師は次に開いたときに新しいコードの入力が必要になります。')}
+    ${field('na', '管理者コード', null, 'この画面に入るためのコードです。講師コードとはちがうものにしてください。')}
+    ${field('ns', '教室名', cur.school, 'プリントの上に出る名前です。')}
+    <button class="pri" id="save" style="width:100%;margin-top:16px">変更を保存する</button>
+    <div class="row" style="margin-top:10px;justify-content:space-between"><button id="aback">‹ 戻る</button>
+      <button id="aforget" class="small" style="border:none;background:none;color:var(--sub);text-decoration:underline">この端末で管理者コードを忘れる</button></div></div>`;
+  document.getElementById('aback').onclick = back;
+  document.getElementById('aforget').onclick = () => { store('sk_admin', null); back(); };
+  document.getElementById('save').onclick = async () => {
+    const v = { teacherCode: document.getElementById('nt').value.trim(), adminCode: document.getElementById('na').value.trim(), school: document.getElementById('ns').value.trim() };
+    if (!v.teacherCode && !v.adminCode && !v.school) return adminForm(ac, cur, '', '変える項目に入力してください。');
+    const what = [v.teacherCode && '講師コード', v.adminCode && '管理者コード', v.school && '教室名'].filter(Boolean).join('・');
+    if (!confirm(what + 'を変更します。よろしいですか？')) return;
+    loading('保存しています…');
+    try {
+      const now = await run('adminSave', ac, v);
+      // 自分の端末に保存してある講師コードも新しいものにする
+      if (v.teacherCode && S.code) { S.code = v.teacherCode; store('sk_code', v.teacherCode); }
+      if (v.adminCode) store('sk_admin', v.adminCode);
+      if (v.school && S.data) S.data.school = now.school;
+      adminForm(v.adminCode || ac, now, what + 'を変更しました。');
+    } catch (e) { adminForm(ac, cur, '', errMsg(e)); }
+  };
+}
 
 // ---- 上のメニュー ----
 function shell(inner) {
   const t = (k, l) => `<button data-tab="${k}" class="${S.tab === k ? 'on' : ''}">${l}</button>`;
   $app.innerHTML = `<div class="top"><div class="wrap"><div class="brand">桜中対策プリント</div>
-    <div class="tabs">${t('make', 'プリントを作る')}${t('list', '作ったプリント・点数')}${t('weak', '苦手な単元')}</div>
-    <button id="out" class="small">出る</button></div></div><div class="wrap" id="main">${inner}</div>`;
-  $app.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { S.tab = b.dataset.tab; S.unit = null; showMain(); });
-  document.getElementById('out').onclick = () => { store('sk_code', null); S.code = ''; showLogin(); };
+    <div class="tabs">${t('make', '授業')}${t('weak', '苦手な単元')}</div>
+    <button id="adm" class="small">⚙ 管理者</button></div></div><div class="wrap" id="main">${inner}</div>`;
+  $app.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { if (b.dataset.tab !== S.tab) navTo(mainScreen(b.dataset.tab)); });
+  document.getElementById('adm').onclick = () => navTo(() => showAdmin());
 }
 function showMain() {
-  if (S.tab === 'list') return showList();
   if (S.tab === 'weak') return showWeak();
   if (S.unit) return showUnit();
   showMake();
@@ -298,21 +442,21 @@ function showMake() {
   document.querySelectorAll('.unit[data-u]').forEach(d => d.onclick = async () => {
     const u = list.find(x => x.unit === d.dataset.u);
     if (!u || !u.total) return;
-    if (!(u.from && u.from.length)) { S.unit = u; showUnit(); return; }
+    if (!(u.from && u.from.length)) { S.lastPlan = null; navTo(mainScreen('make', u)); return; }
     // 総まとめ：前の単元の問題から自動で作る
     loading('まとめプリントを作っています…');
     try {
-      S.print = await run('createReviewPrint', S.code, S.grade, u.unit);
+      const pr = await run('createReviewPrint', S.code, S.grade, u.unit);
       refresh().catch(() => {});
-      S.mode = 'student'; showPrint();
+      navTo(() => { S.print = pr; S.mode = 'student'; showPrint(); });
     } catch (e) { showMake(); alert(e.message || e); }
   });
   document.querySelectorAll('.unit[data-test]').forEach(d => d.onclick = async () => {
     loading('確認テストを作っています…');
     try {
-      S.print = await run('createTestPrint', S.code, S.grade, d.dataset.subj, Number(d.dataset.test));
+      const pr = await run('createTestPrint', S.code, S.grade, d.dataset.subj, Number(d.dataset.test));
       refresh().catch(() => {});
-      S.mode = 'student'; showPrint();
+      navTo(() => { S.print = pr; S.mode = 'student'; showPrint(); });
     } catch (e) { showMake(); alert(e.message || e); }
   });
 }
@@ -328,9 +472,12 @@ async function showUnit() {
     return `<div class="card" data-kind="${kind}">
       <div class="row"><b>${kind === '授業' ? '授業で解く問題' : '宿題'}</b><span class="small" data-sel></span>
         <button class="pri" data-make style="margin-left:auto"${qs.length ? '' : ' disabled'}>${kind}プリントを作る</button></div>
+      <div class="ig-tot" data-tot></div>
       ${qs.length ? qs.map(q => `<label class="qpick"><input type="checkbox" value="${esc(q.id)}" data-lv="${esc(q.level)}" checked>
-        <div><div><span class="lv ${esc(q.level)}">${esc(q.level)}</span><span class="tp">${{ choice: '4択', number: '答えを書く', write: '説明' }[q.type]}</span>
-        <span class="small">${esc(q.id)}・${esc(q.sub)}・${q.points}点</span></div><div class="t">${fmt(q.text)}</div></div></label>`).join('')
+        <div style="flex:1;min-width:0"><div><span class="lv ${esc(q.level)}">${esc(q.level)}</span><span class="tp">${{ choice: '4択', number: '答えを書く', write: '説明' }[q.type]}</span>
+        <span class="small">${esc(q.id)}・${esc(q.sub)}・${q.points}点</span></div><div class="t">${fmt(q.text)}</div></div>
+        <button class="small" data-plan="${esc(q.id)}" style="margin-left:auto;white-space:nowrap">📖 台本</button>
+        <div class="ig" data-ig="${esc(q.id)}"></div></label>`).join('')
       : `<div class="small">${kind}用の問題はまだありません。「問題」シートの「用途」に「${kind}」と入れると、ここに出ます。</div>`}</div>`;
   };
   document.getElementById('main').innerHTML = `
@@ -340,11 +487,17 @@ async function showUnit() {
       ${u.detail ? `<div class="small">${esc(u.detail)}</div>` : ''}
       ${u.point ? `<div class="small">桜中ポイント：${esc(u.point)}</div>` : ''}
       ${u.script ? `<div class="small"><a href="${esc(u.script)}" target="_blank" rel="noopener">講師用台本をひらく</a></div>` : ''}
-      <div class="row" style="margin-top:8px"><button class="pri" id="prep">📖 台本を表示</button>
-        <span class="small">授業の前に読む講師用のページです（台本・答えと解説）。プリントは作りません</span></div></div>
+      <div class="row" style="margin-top:8px"><button class="pri" id="prep">📖 全問の台本を表示</button>
+        <span class="small">全部の問題の答え・指導のポイント・解説を、一覧で見られます。プリントは作りません</span></div></div>
+    <div class="card" id="gst"></div>
     ${section('授業')}${section('宿題')}`;
-  document.getElementById('back').onclick = () => { S.unit = null; showMake(); };
+  document.getElementById('back').onclick = goBack;
   document.getElementById('prep').onclick = () => showPrep();
+  // 問題の横の「台本」：その問題の画面をすぐ開く（チェックボックスは切りかえない）
+  document.querySelectorAll('[data-plan]').forEach(b => b.onclick = e => { e.preventDefault(); e.stopPropagation(); S.lastPlan = b.dataset.plan; showPrep(b.dataset.plan); });
+  // 台本から戻ってきたときは、さっき見ていた問題の位置を出す
+  const lp = S.lastPlan && document.querySelector('[data-plan="' + S.lastPlan + '"]');
+  if (lp) window.scrollTo(0, lp.closest('.qpick').getBoundingClientRect().top + window.scrollY - 70);
   const cards = [...document.querySelectorAll('[data-kind]')];
   const count = card => {
     const on = [...card.querySelectorAll('.qpick input')].filter(b => b.checked);
@@ -355,48 +508,393 @@ async function showUnit() {
   document.querySelectorAll('#lvf [data-l]').forEach(b => b.onclick = () => {
     cards.forEach(card => { card.querySelectorAll('.qpick input').forEach(x => { x.checked = b.dataset.l === '全部' || x.dataset.lv === b.dataset.l; }); count(card); });
   });
-  cards.forEach(card => card.querySelector('[data-make]').onclick = async e => {
+  // 同じ単元・同じ問題のプリントが前にあればそのID。なければ新しく作る（同じプリントがふえないように）
+  const printFor = async (card, btn, busy) => {
     const kind = card.dataset.kind;
     const ids = [...card.querySelectorAll('.qpick input')].filter(b => b.checked).map(b => b.value);
-    if (!ids.length) return alert('問題を1つ以上えらんでください。');
-    e.target.disabled = true; e.target.textContent = '作っています…';
+    if (!ids.length) { alert('問題を1つ以上えらんでください。'); return null; }
+    const key = ids.slice().sort().join(',');
+    S.data.prints = S.data.prints || [];
+    const same = S.data.prints.find(p => p.grade === S.grade && p.unit === u.unit && p.kind === kind && (p.ids || []).slice().sort().join(',') === key);
+    if (same) return same.id;
+    const label = btn.textContent;
+    btn.disabled = true; btn.textContent = busy;
     try {
-      S.print = await run('createPrint', S.code, S.grade, u.unit, ids, '', kind);
+      const id = (await run('createPrint', S.code, S.grade, u.unit, ids, '', kind)).print.id;
+      S.data.prints.unshift({ id: id, grade: S.grade, unit: u.unit, kind: kind, ids: ids });
       refresh().catch(() => {});
-      S.mode = 'student'; showPrint();
-    } catch (err) { alert(err.message || err); e.target.disabled = false; e.target.textContent = kind + 'プリントを作る'; }
+      return id;
+    } catch (err) { alert(err.message || err); return null; }
+    finally { btn.disabled = false; btn.textContent = label; }
+  };
+  cards.forEach(card => card.querySelector('[data-make]').onclick = async e => {
+    const id = await printFor(card, e.target, '作っています…');
+    if (!id) return;
+    loading('プリントを読みこみ中…');
+    try { const pr = await run('getPrint', S.code, id); navTo(() => { S.print = pr; S.mode = 'student'; showPrint(); }); }
+    catch (err) { alert(err.message || err); showUnit(); }
   });
+  inlineGrade(u, cards);
 }
 
-// ---- 台本の表示：台本と、授業・宿題の問題の答え・解説を読む（プリントは作らない） ----
-async function showPrep() {
+// ---- その場で○×：生徒をえらぶと、問題ごとに○△×が出る。押すとすぐ保存（合計と苦手な単元は自動） ----
+// 点数は「その単元の授業（宿題）の問題 全部」のプリントにまとめて記録する。押していない問題は記録しない
+async function inlineGrade(u, cards) {
+  const box = document.getElementById('gst');
+  const stAll = () => (S.data.students || []).filter(s => s.grade === S.grade);
+  const SK = 'sk_gst_' + S.grade;
+  let pick = load(SK) ? String(load(SK)).split(',') : [];
+  pick = pick.filter(id => stAll().some(s => s.id === id));
+  const qOf = id => S.qs.find(q => q.id === id);
+  const G = {};
+  ['授業', '宿題'].forEach(kind => {
+    const ids = S.qs.filter(q => q.use === kind).map(q => q.id);
+    const key = ids.slice().sort().join(',');
+    const same = (S.data.prints || []).find(p => p.grade === S.grade && p.unit === u.unit && p.kind === kind && (p.ids || []).slice().sort().join(',') === key);
+    G[kind] = { id: same ? same.id : null, ids: ids, marks: {} };
+  });
+  box.innerHTML = '<div class="small">採点の記録を読みこみ中…</div>';
+  // 前に押した○×を読みこむ
+  await Promise.all(Object.keys(G).filter(k => G[k].id).map(async k => {
+    try {
+      const d = await run('getScoreSheet', S.code, G[k].id);
+      d.students.forEach(st => { if (st.scores) { G[k].marks[st.id] = {}; Object.keys(st.scores).forEach(q => { G[k].marks[st.id][q] = Number(st.scores[q]); }); } });
+    } catch (e) { /* 読めなくても、押せば新しく記録される */ }
+  }));
+  if (!document.body.contains(box)) return;   // 読みこみ中に別の画面へ移った
+  let toastT;
+  const toast = (m, bad, ms) => {
+    let t = document.querySelector('.ig-toast');
+    if (!t) { t = document.createElement('div'); t.className = 'ig-toast'; document.body.appendChild(t); }
+    t.textContent = m; t.classList.toggle('bad', !!bad); t.hidden = false;
+    clearTimeout(toastT); if (!bad) toastT = setTimeout(() => { t.hidden = true; }, ms || 1500);
+  };
+  const drawBox = () => {
+    box.innerHTML = `<b>採点する生徒</b> <span class="small">えらぶと、問題ごとに○×が出ます（もう一度押すと取り消し）。つけ終わったら、下の「完了して保存」を押してください。</span>
+      <div class="chips">${stAll().map(s => `<button data-sp="${esc(s.id)}" class="${pick.includes(s.id) ? 'on' : ''}">${esc(s.name)}</button>`).join('')}
+        <button data-addst>＋ 生徒を足す</button></div>
+      <div class="row" data-addf hidden><input id="nn" placeholder="名前（${esc(S.grade)}）" style="flex:1;min-width:0"><button id="add">足す</button></div>`;
+    box.querySelectorAll('[data-sp]').forEach(b => b.onclick = () => {
+      const id = b.dataset.sp;
+      pick = pick.includes(id) ? pick.filter(x => x !== id) : pick.concat(id);
+      store(SK, pick.join(','));
+      drawBox(); drawAll();
+    });
+    box.querySelector('[data-addst]').onclick = () => { const f = box.querySelector('[data-addf]'); f.hidden = !f.hidden; if (!f.hidden) document.getElementById('nn').focus(); };
+    document.getElementById('add').onclick = async e => {
+      const name = document.getElementById('nn').value.trim();
+      if (!name) return alert('名前を入れてください。');
+      e.target.disabled = true;
+      try {
+        const st = await run('addStudent', S.code, name, S.grade);
+        S.data.students = S.data.students || [];
+        if (!S.data.students.some(s => s.id === st.id)) S.data.students.push({ id: st.id, name: st.name, grade: S.grade });
+        if (!pick.includes(st.id)) pick.push(st.id);
+        store(SK, pick.join(','));
+        drawBox(); drawAll();
+      } catch (err) { alert(err.message || err); e.target.disabled = false; }
+    };
+  };
+  const drawQ = qid => {
+    const el = document.querySelector('[data-ig="' + qid + '"]'); if (!el) return;
+    const q = qOf(qid), g = G[q.use];
+    const st0 = pick.some(sid => stAll().some(s => s.id === sid));
+    const no = noOf(qid);
+    el.innerHTML = (st0 ? `<div class="ig-key">${no ? '<span class="qp-no">' + circ(no) + '</span> ' : ''}${q.type === 'write' ? '説明の問題（採点のめやすは台本に）' : '答え ' + fmt(keyText(q))}</div>` : '') + pick.map(sid => {
+      const st = stAll().find(s => s.id === sid); if (!st) return '';
+      const v = (g.marks[sid] || {})[qid], has = v != null && !isNaN(v), part = has && v > 0 && v < q.points;
+      return `<div class="ig-row" data-st="${esc(sid)}"><span class="nm">${esc(st.name)}</span>
+        <button data-v="${q.points}" class="${has && v === q.points ? 'on ok' : ''}">○</button>
+        ${q.points > 1 ? `<button data-v="part" class="${part ? 'on part' : ''}">${part ? v + '点' : '△'}</button>` : ''}
+        <button data-v="0" class="${has && v === 0 ? 'on ng' : ''}">×</button>
+        <span class="ig-parts" hidden>${Array.from({ length: q.points - 1 }, (_, k) => `<button data-v="${k + 1}">${k + 1}点</button>`).join('')}</span></div>`;
+    }).join('');
+  };
+  // 印刷したプリント（チェックした問題）の番号。チェックしていない問題は番号なし
+  const checkedIds = kind => { const c = cards.find(x => x.dataset.kind === kind); return c ? [...c.querySelectorAll('.qpick input')].filter(b => b.checked).map(b => b.value) : []; };
+  const noOf = qid => checkedIds(qOf(qid).use).indexOf(qid) + 1;
+  // 合計。チェックした問題を全部押し終わった生徒は「採点おわり」と、×・△だった問題の番号を出す
+  const drawTot = kind => {
+    const card = cards.find(c => c.dataset.kind === kind); if (!card) return;
+    const g = G[kind], on = checkedIds(kind);
+    card.querySelector('[data-tot]').innerHTML = pick.map(sid => {
+      const st = stAll().find(s => s.id === sid), m = g.marks[sid] || {};
+      const has = id => m[id] != null && !isNaN(m[id]);
+      const done = g.ids.filter(has);
+      if (!st || !done.length) return '';
+      const got = done.reduce((s, id) => s + m[id], 0), max = done.reduce((s, id) => s + qOf(id).points, 0);
+      const left = on.filter(id => !has(id)).length;
+      if (left) return `<div class="ig-st">${esc(st.name)}　${got}／${max}点　<span class="small">あと${left}問</span></div>`;
+      const miss = on.filter(id => m[id] < qOf(id).points);
+      return `<div class="ig-st fin">${esc(st.name)}　${got}／${max}点　<span class="ig-done">✅ 採点おわり</span>
+        <div class="ig-miss">${miss.length ? '×・△だった問題：' + miss.map(id => `<b>${circ(noOf(id))}</b>`).join(' ') + '　→ もう一度やってみよう' : '🎉 全問正解！'}</div></div>`;
+    }).join('');
+  };
+  const drawAll = () => { S.qs.forEach(q => drawQ(q.id)); drawTot('授業'); drawTot('宿題'); };
+  // 問題のチェックを変えたら、番号と「あと何問」を出し直す
+  cards.forEach(card => card.addEventListener('change', () => { S.qs.filter(q => q.use === card.dataset.kind).forEach(q => drawQ(q.id)); drawTot(card.dataset.kind); drawBar(); }));
+  document.querySelectorAll('#lvf [data-l]').forEach(b => b.addEventListener('click', () => setTimeout(() => { drawAll(); drawBar(); }, 0)));
+  // 保存：○×を押しても、まだ保存しない。つけ終わったら「完了して保存」でまとめて保存する
+  // 保存前の○×は、この端末に下書きとして残す（戻ったり閉じたりしても消えない）
+  const DK = 'sk_igd_' + S.grade + '|' + u.unit;
+  Object.keys(G).forEach(k => { G[k].dirty = new Set(); });
+  const keepDraft = () => {
+    const d = {};
+    Object.keys(G).forEach(k => G[k].dirty.forEach(sid => { (d[k] = d[k] || {})[sid] = G[k].marks[sid] || {}; }));
+    store(DK, Object.keys(d).length ? JSON.stringify(d) : null);
+  };
+  try {
+    const d = JSON.parse(load(DK) || '{}');
+    Object.keys(d).forEach(k => { if (G[k]) Object.keys(d[k]).forEach(sid => { G[k].marks[sid] = d[k][sid]; G[k].dirty.add(sid); }); });
+  } catch (e) { store(DK, null); }
+  const dirtyNames = () => {
+    const ids = new Set(); Object.keys(G).forEach(k => G[k].dirty.forEach(sid => ids.add(sid)));
+    return [...ids].map(sid => (stAll().find(s => s.id === sid) || {}).name).filter(Boolean);
+  };
+  let savedMsg = '';
+  const bar = document.createElement('div');
+  bar.className = 'ig-bar';
+  box.parentNode.appendChild(bar);
+  const spacer = document.createElement('div');
+  spacer.style.height = '90px';
+  box.parentNode.appendChild(spacer);
+  const drawBar = () => {
+    const names = dirtyNames();
+    // まだ押していない問題（チェックした問題のうち）。全部押し終わったら「完了して保存」を出す
+    const left = [];
+    Object.keys(G).forEach(k => {
+      const on = checkedIds(k);
+      G[k].dirty.forEach(sid => {
+        const m = G[k].marks[sid] || {}, n = on.filter(q => m[q] == null || isNaN(m[q])).length;
+        const st = stAll().find(s => s.id === sid);
+        if (n && st) left.push(esc(st.name) + (k === '宿題' ? '（宿題）' : '') + ' あと' + n + '問');
+      });
+    });
+    if (names.length && !left.length) {
+      bar.className = 'ig-bar wait';
+      bar.innerHTML = `<div class="ig-bar-t">全部つけ終わりました。保存してください（${names.map(esc).join('・')}）</div><button class="pri" data-done>完了して保存</button>`;
+      bar.querySelector('[data-done]').onclick = () => saveAll();
+    } else if (names.length) {
+      bar.className = 'ig-bar todo';
+      bar.innerHTML = `<div class="ig-bar-t">採点中：${left.join('・')}<div class="small">全部つけると「完了して保存」が出ます</div></div><button data-done class="ig-mid">途中で保存</button>`;
+      bar.querySelector('[data-done]').onclick = () => saveAll();
+    } else if (savedMsg) {
+      bar.className = 'ig-bar ok';
+      bar.innerHTML = `<div class="ig-bar-t">${savedMsg}</div>`;
+    } else bar.className = 'ig-bar off';
+    window.onbeforeunload = names.length ? () => (document.body.contains(bar) ? true : undefined) : null;
+  };
+  const ensurePrint = async kind => {
+    const g = G[kind]; if (g.id) return g.id;
+    g.id = (await run('createPrint', S.code, S.grade, u.unit, g.ids, '', kind)).print.id;
+    (S.data.prints = S.data.prints || []).unshift({ id: g.id, grade: S.grade, unit: u.unit, kind: kind, ids: g.ids });
+    return g.id;
+  };
+  let saving = false;
+  const saveAll = async () => {
+    if (saving) return;
+    saving = true;
+    const btn = bar.querySelector('[data-done]');
+    if (btn) { btn.disabled = true; btn.textContent = '保存しています…'; }
+    const lines = [];
+    try {
+      for (const kind of Object.keys(G)) {
+        const g = G[kind]; if (!g.dirty.size) continue;
+        const id = await ensurePrint(kind);
+        const sids = [...g.dirty];
+        await run('saveScores', S.code, id, sids.map(sid => {
+          const m = g.marks[sid] || {}, sc = {};
+          g.ids.forEach(q => { sc[q] = m[q] != null && !isNaN(m[q]) ? m[q] : ''; });
+          return { id: sid, scores: sc };
+        }));
+        sids.forEach(sid => {
+          g.dirty.delete(sid);
+          const st = stAll().find(s => s.id === sid), m = g.marks[sid] || {};
+          const done = g.ids.filter(q => m[q] != null && !isNaN(m[q]));
+          if (st) lines.push(esc(st.name) + (done.length ? ' ' + done.reduce((s, q) => s + m[q], 0) + '／' + done.reduce((s, q) => s + qOf(q).points, 0) + '点' : ' 記録なし') + (kind === '宿題' ? '（宿題）' : ''));
+        });
+      }
+      keepDraft();
+      const t = new Date();
+      savedMsg = `✅ 保存しました（${t.getHours()}:${String(t.getMinutes()).padStart(2, '0')}）　${lines.join('、')}`;
+      toast('✅ 保存しました', false, 2500);
+      refresh().catch(() => {});
+    } catch (e) {
+      keepDraft();
+      alert('保存できませんでした。電波のよいところで、もう一度「完了して保存」を押してください。\n（' + (e.message || e) + '）');
+    }
+    saving = false;
+    drawBar();
+  };
+  // 保存していないまま「戻る」を押したとき
+  const backBtn = document.getElementById('back');
+  if (backBtn) backBtn.onclick = async () => {
+    if (dirtyNames().length && confirm('まだ保存していない○×があります。\n保存してから戻りますか？\n\n「キャンセル」なら保存せずに戻ります（下書きはこの端末に残ります）。')) {
+      await saveAll();
+      if (dirtyNames().length) return;   // 保存できなかったときは残る
+    }
+    window.onbeforeunload = null;
+    goBack();
+  };
+  cards.forEach(card => card.addEventListener('click', e => {
+    const b = e.target.closest('.ig button'); if (!b) return;
+    e.preventDefault(); e.stopPropagation();   // 問題のチェックは切りかえない
+    const row = b.closest('.ig-row'), qid = b.closest('[data-ig]').dataset.ig, sid = row.dataset.st, q = qOf(qid);
+    if (b.dataset.v === 'part') { const p = row.querySelector('.ig-parts'); p.hidden = !p.hidden; return; }
+    const g = G[q.use], m = (g.marks[sid] = g.marks[sid] || {}), n = Number(b.dataset.v);
+    if (m[qid] === n) delete m[qid]; else m[qid] = n;
+    g.dirty.add(sid); savedMsg = '';
+    keepDraft();
+    drawQ(qid); drawTot(q.use); drawBar();
+  }, true));
+  drawBox(); drawAll(); drawBar();
+}
+
+// ---- 台本：問題の番号をえらぶと、その問題の答え・指導のポイント・解説が出る（プリントは作らない） ----
+/** 解説は「｜」で区切ると①②③…の手順になる。「答えの例：」で始まる部分は、説明問題の答えの例として別に出す */
+function expParts(exp) {
+  const parts = String(exp || '').split('｜').map(s => s.trim()).filter(Boolean);
+  let model = '';
+  if (parts.length && /^(答えの例|（模範解答）)/.test(parts[0])) model = parts.shift().replace(/^(答えの例[：:]?|（模範解答）)\s*/, '');
+  return { model: model, steps: parts };
+}
+function expHtml(exp) {
+  const e = expParts(exp);
+  return (e.model ? '<div>' + fmt(e.model) + '</div>' : '') +
+    (e.steps.length > 1 ? '<ol>' + e.steps.map(s => '<li>' + fmt(s) + '</li>').join('') + '</ol>' : e.steps.map(fmt).join(''));
+}
+/** 指導のポイント：「最初に聞く」＋ポイント。まだ書いていない問題は、まちがいやすい点と誤答理由を出す */
+function tipsOf(q) {
+  if (q.tips.length) return q.tips;
+  const t = q.caution ? [q.caution] : [];
+  if (q.type === 'choice') q.choices.filter(c => c.letter !== q.answer && q.reasons[c.letter]).forEach(c => t.push(`${KANA[c.letter]}を選んだ子：${q.reasons[c.letter]}`));
+  return t;
+}
+function prepQHtml(q) {
+  // 選択式も「答え ア　○○」を出し、選択肢の正解にも赤い丸をつける
+  const ok = q.type === 'write' ? '' : `<div class="qp-ans"><span class="lb">答え</span><span class="ok">${fmt(keyText(q))}</span></div>`;
+  const chs = q.type === 'choice' ? `<div class="chs">${q.choices.map(c => `<div><span class="qp-ch${c.letter === q.answer ? ' ok' : ''}">${KANA[c.letter]}　${fmt(c.text)}</span></div>`).join('')}</div>` : '';
+  const e = expParts(q.exp), tips = tipsOf(q);
+  const model = q.type === 'write' ? `<div class="qp-model"><span class="lb">答えの例</span><span class="ok">${fmt(e.model || (e.steps.length === 1 ? e.steps[0] : ''))}</span>${q.rubric ? `<div class="small" style="margin-top:4px">採点のめやす：${fmt(q.rubric)}</div>` : ''}</div>` : '';
+  const steps = q.type === 'write' && !e.model && e.steps.length === 1 ? [] : e.steps;
+  return `<div class="qp-text">${fmt(q.text)}</div>${fig(q.figure)}${chs}${ok}${model}
+    ${q.ask || tips.length ? `<div class="qp-point"><h4>指導のポイント</h4><ul>${q.ask ? `<li><b>最初に聞く：</b>${fmt(q.ask)}</li>` : ''}${tips.map(t => '<li>' + fmt(t) + '</li>').join('')}</ul></div>` : ''}
+    ${steps.length ? `<div class="qp-exp"><h4>解説</h4>${steps.length > 1 ? '<ol>' + steps.map(s => '<li>' + fmt(s) + '</li>').join('') + '</ol>' : fmt(steps[0])}</div>` : ''}`;
+}
+/** 詳しい台本：1行ずつ「知：」「T：」「S：」「困：」「別：」で始まる */
+function guideHtml(lines) {
+  return lines.map(l => {
+    const m = l.match(/^(知|T|S|困|別)[：:]\s*(.*)$/);
+    if (!m) return '<div>' + fmt(l) + '</div>';
+    const t = fmt(m[2]);
+    if (m[1] === '知') return '<div class="know"><b>先に知っておくこと</b>' + t + '</div>';
+    if (m[1] === '困') {   // 「生徒の質問」→ 答え方
+      const [q, ...r] = m[2].split(/\s*→\s*/);
+      return '<div class="trouble"><b>されそうな質問</b><div class="tq">' + fmt(q) + '</div>' + (r.length ? '<div>→ ' + fmt(r.join(' → ')) + '</div>' : '') + '</div>';
+    }
+    if (m[1] === '別') return '<div class="alt"><b>別のやり方</b>' + t + '</div>';
+    return '<div class="tk ' + m[1] + '"><span class="who">' + (m[1] === 'T' ? '講師' : '生徒') + '</span><span>' + t + '</span></div>';
+  }).join('');
+}
+let P = null;   // 台本の画面の状態 { d, list:[{q, kind, no}], cur }（cur は1問の画面を出しているときだけ0以上）
+/** 台本を読みこむ。openId をわたすとその問題の画面を開き、戻ると単元の問題一覧にもどる。わたさないと全部の問題の一覧を開く */
+async function showPrep(openId) {
   loading('台本を読みこみ中…');
   let d;
   try { d = await run('getPrep', S.code, S.grade, S.unit.unit); }
   catch (e) { showUnit(); alert(e.message || e); return; }
-  const qBlock = (q, i) => {
-    const chs = q.type === 'choice' ? `<div class="chs">${q.choices.map(c => `<div${c.letter === q.answer ? ' style="font-weight:bold"' : ''}>${KANA[c.letter]}　${fmt(c.text)}</div>`).join('')}</div>` : '';
-    const why = q.type === 'choice' ? q.choices.filter(c => c.letter !== q.answer && q.reasons[c.letter]).map(c => `${KANA[c.letter]}を選んだ人：${esc(q.reasons[c.letter])}`).join('　／　') : '';
-    return `<div class="pq"><div class="body"><div class="tx"><span class="no">${circ(i + 1)}</span><span class="lv ${esc(q.level)}">${esc(q.level)}</span> <span class="small">${esc(q.sub)}・${q.points}点</span><br>${fmt(q.text)}</div>${fig(q.figure)}</div>${chs}
-      <div style="margin-top:4px">答え <span class="key">${q.type === 'write' ? '（記述）' : fmt(keyText(q))}</span></div>
-      <div class="exp">${fmt(q.exp)}</div>${why ? `<div class="why">${why}</div>` : ''}
-      ${q.rubric ? `<div class="rub"><b>採点のめやす</b>　${fmt(q.rubric)}</div>` : ''}${q.caution ? `<div class="rub"><b>⚠ まちがいやすい点</b>　${fmt(q.caution)}</div>` : ''}</div>`;
-  };
+  // 番号は印刷するプリントと同じ：授業①〜、宿題①〜
+  const list = d.questions.map((q, i) => ({ q: q, kind: '授業', no: i + 1 })).concat(d.homework.map((q, i) => ({ q: q, kind: '宿題', no: i + 1 })));
+  const p = { d: d, list: list, cur: -1 };
+  const i = openId ? list.findIndex(x => x.q.id === openId) : -1;
+  // 読みこみ中の表示は履歴に残さず、単元の画面の次に台本の画面を積む
+  if (i < 0) navTo(() => { P = p; prepList(); });
+  else navTo(() => { P = p; prepQ(i); });
+}
+const kindName = k => k === '授業' ? '問題' : k;
+const qHead = x => `<div><span class="qp-no">${kindName(x.kind)} ${circ(x.no)}</span> <span class="lv ${esc(x.q.level)}">${esc(x.q.level)}</span><span class="small">${esc(x.q.sub)}・${x.q.points}点</span></div>`;
+/** 全部の問題の一覧：問題・答え・指導のポイント・解説を上から順にならべる */
+function prepList() {
+  const d = P.d, p = d.plan || {};
+  P.cur = -1;
+  const jump = kind => P.list.map((x, i) => x.kind !== kind ? '' : `<button class="small" data-j="${i}">${circ(x.no)}</button>`).join('');
+  const blocks = kind => P.list.map((x, i) => x.kind !== kind ? '' : `<div class="card" id="pq${i}">${qHead(x)}${prepQHtml(x.q)}</div>`).join('');
+  $app.innerHTML = `<div class="toolbar"><div class="wrap"><button id="back">‹ 戻る</button><span class="small" style="margin-left:auto">${esc(d.print.grade)}・${esc(d.subject)}</span>
+    <button id="pr">🖨 講師用を印刷</button></div></div>
+    <div class="wrap" style="max-width:680px"><div class="card"><h2 style="margin:2px 0 6px;font-size:19px">${esc(d.print.unit)}</h2><div class="qp-meta">
+      <div><b>ねらい</b>${fmt(p.point || d.detail || '')}</div>
+      <div><b>準備</b>${fmt(p.prep || 'プリントだけ')}</div>
+      ${d.time ? `<div><b>めやす</b>${esc(d.time)}</div>` : ''}</div>
+      <div class="row" style="margin-top:8px"><span class="small">問題</span>${jump('授業')}</div>
+      ${d.homework.length ? `<div class="row" style="margin-top:4px"><span class="small">宿題</span>${jump('宿題')}</div>` : ''}
+      <div class="small" style="margin-top:4px">番号を押すと、その問題までとびます</div></div>
+    ${d.questions.length ? `<div class="qp-sec">授業で解く問題（${d.questions.length}問）</div>${blocks('授業')}` : ''}
+    ${d.homework.length ? `<div class="qp-sec">宿題の問題（${d.homework.length}問）</div>${blocks('宿題')}` : ''}</div>`;
+  document.getElementById('back').onclick = goBack;
+  const p0 = P;
+  document.getElementById('pr').onclick = () => navTo(() => { P = p0; prepPaper(); });
+  document.querySelectorAll('[data-j]').forEach(b => b.onclick = () => {
+    const el = document.getElementById('pq' + b.dataset.j);
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 60, behavior: 'smooth' });
+  });
+  window.scrollTo(0, 0);
+}
+/** 1問の画面（問題の横の「台本」から開く）。前後の問題へは履歴をふやさずに移る */
+function prepQ(i) {
+  P.cur = i;
+  const x = P.list[i], prev = P.list[i - 1], next = P.list[i + 1];
+  const lab = y => y ? (y.kind === x.kind ? '' : kindName(y.kind)) + circ(y.no) : '';
+  $app.innerHTML = `<div class="toolbar"><div class="wrap"><button id="back">‹ 戻る</button>
+      <div class="qp-nav"><button id="pv" ${prev ? '' : 'disabled'}>‹ ${lab(prev)}</button><span class="qp-no">${kindName(x.kind)} ${circ(x.no)}</span><button id="nx" ${next ? '' : 'disabled'}>${lab(next)} ›</button></div></div></div>
+    <div class="wrap" style="max-width:680px"><div class="card"><div><span class="lv ${esc(x.q.level)}">${esc(x.q.level)}</span><span class="small">${esc(x.q.sub)}・${x.q.points}点</span></div>
+      ${prepQHtml(x.q)}
+      ${x.q.guide && x.q.guide.length ? `<button class="gd-btn" id="gdb">📘 さらにわかりやすく、詳しい台本</button><div class="gd" id="gd" style="display:none"><h4>詳しい台本（この教科が苦手な先生向け）</h4>${guideHtml(x.q.guide)}</div>` : ''}</div>
+    <div class="qp-hint">左右になぞると前後の問題へ。「‹ 戻る」やスマホのバックキーで問題の一覧に戻ります</div></div>`;
+  document.getElementById('back').onclick = goBack;
+  const gb = document.getElementById('gdb');
+  if (gb) gb.onclick = () => { const g = document.getElementById('gd'), open = g.style.display === 'none'; g.style.display = open ? '' : 'none'; gb.textContent = open ? '📘 詳しい台本をとじる' : '📘 さらにわかりやすく、詳しい台本'; if (open) g.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+  document.getElementById('pv').onclick = () => prev && prepGo(i - 1);
+  document.getElementById('nx').onclick = () => next && prepGo(i + 1);
+  window.scrollTo(0, 0);
+}
+function prepGo(i) { const p = P; navSwap(() => { P = p; prepQ(i); }); }
+/** 講師用の印刷：画面と同じ形で、1問ずつ「問題・答え・指導のポイント・解説」 */
+function prepPaper() {
+  const d = P.d;
+  P.cur = -1;
+  const block = x => `<div class="pq">${qHead(x)}${prepQHtml(x.q)}</div>`;
   $app.innerHTML = `<div class="toolbar"><div class="wrap"><button id="back">‹ 戻る</button>
     <button class="pri" id="pr" style="margin-left:auto">🖨 印刷する</button></div></div>
     <div class="wrap"><div class="paper">${head(d, '講師用台本・塾内のみ')}
-      <div class="small">${esc(d.print.grade)}・${d.month}月${d.week ? '・第' + esc(d.week) + '週' : ''}・${esc(d.subject)}${d.detail ? '　' + esc(d.detail) : ''}</div>
-      ${d.time ? `<div class="rub" style="background:var(--soft);border-color:#c7d7fb"><b>時間配分（授業）</b>　${esc(d.time)}</div>` : ''}
-      ${d.point ? `<div class="rub"><b>桜中ポイント</b>　${esc(d.point)}</div>` : ''}
-      ${d.plan ? planHtml(d.plan) : '<div class="rub">この単元の台本は、まだありません。下の問題の解説と「まちがいやすい点」を見て準備してください。</div>'}
-      <h3 class="${d.plan ? 'newpage' : ''}" style="font-size:15px;margin:14px 0 4px">授業で解く問題（${d.questions.length}問・${d.total}点）</h3>
-      ${d.questions.length ? d.questions.map(qBlock).join('') : '<div class="small">授業用の問題はまだありません。</div>'}
-      ${d.homework.length ? `<h3 style="font-size:15px;margin:14px 0 4px">宿題（${d.homework.length}問）</h3>${d.homework.map(qBlock).join('')}` : ''}
+      <div class="small">${esc(d.print.grade)}・${d.month}月${d.week ? '・第' + esc(d.week) + '週' : ''}・${esc(d.subject)}　ねらい：${fmt((d.plan || {}).point || d.detail || '')}</div>
+      ${d.questions.length ? `<h3 style="font-size:15px;margin:14px 0 4px">授業の問題（${d.questions.length}問・${d.total}点）</h3>` + P.list.filter(x => x.kind === '授業').map(block).join('') : ''}
+      ${d.homework.length ? `<h3 style="font-size:15px;margin:14px 0 4px">宿題の問題（${d.homework.length}問）</h3>` + P.list.filter(x => x.kind === '宿題').map(block).join('') : ''}
     </div></div>`;
-  document.getElementById('back').onclick = () => showUnit();
+  document.getElementById('back').onclick = goBack;
   document.getElementById('pr').onclick = () => window.print();
   window.scrollTo(0, 0);
 }
+// パソコン：Esc で1つ前の画面へ。1問の画面では ← → で前後の問題へ
+const onQ = () => P && P.cur >= 0 && document.querySelector('.qp-nav');
+document.addEventListener('keydown', e => {
+  if (/INPUT|TEXTAREA|SELECT/.test((e.target && e.target.tagName) || '')) return;
+  if (e.key === 'Escape') goBack();
+  if (!onQ()) return;
+  if (e.key === 'ArrowLeft' && P.cur > 0) prepGo(P.cur - 1);
+  if (e.key === 'ArrowRight' && P.cur < P.list.length - 1) prepGo(P.cur + 1);
+});
+// スマホ：1問の画面で左右になぞると前後の問題へ
+let touchX = null, touchY = null;
+document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; touchY = e.touches[0].clientY; }, { passive: true });
+document.addEventListener('touchend', e => {
+  if (!onQ() || touchX == null) return;
+  const dx = e.changedTouches[0].clientX - touchX, dy = e.changedTouches[0].clientY - touchY;
+  touchX = null;
+  if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+    if (dx < 0 && P.cur < P.list.length - 1) prepGo(P.cur + 1);
+    if (dx > 0 && P.cur > 0) prepGo(P.cur - 1);
+  }
+});
 
 // ---- 印刷画面 ----
 function showPrint() {
@@ -406,7 +904,7 @@ function showPrint() {
     ${m('student', '生徒用プリント')}${m('answer', '解答・解説')}${m('teacher', '講師用（採点のめやす）')}
     <button class="pri" id="pr" style="margin-left:auto">🖨 印刷する</button></div></div>
     <div class="wrap"><div class="paper">${S.mode === 'student' ? paperStudent(d) : S.mode === 'answer' ? paperAnswer(d) : paperTeacher(d)}</div></div>`;
-  document.getElementById('back').onclick = () => { S.tab = 'list'; S.unit = null; showMain(); };
+  document.getElementById('back').onclick = goBack;
   document.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { S.mode = b.dataset.m; showPrint(); window.scrollTo(0, 0); });
   document.getElementById('pr').onclick = () => window.print();
 }
@@ -441,7 +939,7 @@ function paperAnswer(d) {
   return head(d, '解答・解説') + d.questions.map((q, i) => {
     const why = q.type === 'choice' ? q.choices.filter(c => c.letter !== q.answer && q.reasons[c.letter]).map(c => `${KANA[c.letter]}を選んだ人：${esc(q.reasons[c.letter])}`).join('　／　') : '';
     return `<div class="pq"><div><span class="no">${circ(i + 1)}</span>答え <span class="key">${fmt(keyText(q))}</span><span class="pts">（${q.points}点）</span></div>
-      <div class="exp">${fmt(q.exp)}</div>${why ? `<div class="why">${why}</div>` : ''}</div>`;
+      <div class="exp">${expHtml(q.exp)}</div>${why ? `<div class="why">${why}</div>` : ''}</div>`;
   }).join('');
 }
 /**
@@ -485,87 +983,11 @@ function paperTeacher(d) {
     `<h3 class="${d.plan ? 'newpage' : ''}" style="font-size:15px;margin:14px 0 4px">答えと採点のめやす</h3>` +
     `<table class="tt"><tr><th>番号</th><th>小単元・レベル</th><th>答え</th><th>採点のめやす／まちがいやすい点</th></tr>
     ${d.questions.map((q, i) => `<tr><td>${circ(i + 1)}<br><span class="small">${q.points}点</span></td><td>${esc(q.sub)}<br><span class="lv ${esc(q.level)}">${esc(q.level)}</span></td>
-      <td>${q.type === 'write' ? fmt(q.exp) : '<b>' + fmt(keyText(q)) + '</b>'}</td>
+      <td>${q.type === 'write' ? expHtml(q.exp) : '<b>' + fmt(keyText(q)) + '</b>'}</td>
       <td>${q.rubric ? fmt(q.rubric) : ''}${q.rubric && q.caution ? '<br>' : ''}${q.caution ? '⚠ ' + fmt(q.caution) : ''}${!q.rubric && !q.caution ? '<span class="small">○か×（部分点なし）</span>' : ''}</td></tr>`).join('')}
-    </table><div class="small" style="margin-top:8px">合計 ${d.total}点。採点したら、アプリの「作ったプリント・点数」から点数を入れてください。</div>`;
+    </table><div class="small" style="margin-top:8px">合計 ${d.total}点。採点は、アプリの単元の画面で、問題ごとの○×ボタンを押すとできます。</div>`;
 }
 
-// ---- 作ったプリント・点数 ----
-function showList() {
-  const ps = S.data.prints || [];
-  shell(`<div class="small">プリントをえらんで、もう一度印刷したり、採点した点数を入れたりできます。</div>
-    ${ps.length ? `<div class="scroll"><table class="grid"><tr><th>ID</th><th>作成日</th><th>学年</th><th>種類</th><th class="l">タイトル（単元）</th><th>点数を入れた人数</th><th></th></tr>
-    ${ps.map(p => `<tr><td>${esc(p.id)}</td><td>${esc(p.date)}</td><td>${esc(p.grade)}</td><td><span class="tp">${esc(p.kind)}</span></td><td class="l">${esc(p.title)}<div class="small">${esc(p.unit)}・${p.ids.length}問</div></td>
-      <td>${p.scored}人</td><td style="white-space:nowrap"><button data-pr="${esc(p.id)}">印刷</button> <button class="pri" data-sc="${esc(p.id)}">点数を入れる</button></td></tr>`).join('')}
-    </table></div>` : '<div class="card">まだプリントがありません。「プリントを作る」から作ってください。</div>'}`);
-  document.querySelectorAll('[data-pr]').forEach(b => b.onclick = async () => {
-    loading('プリントを読みこみ中…');
-    try { S.print = await run('getPrint', S.code, b.dataset.pr); S.mode = 'student'; showPrint(); } catch (e) { showList(); alert(e.message || e); }
-  });
-  document.querySelectorAll('[data-sc]').forEach(b => b.onclick = () => showScore(b.dataset.sc));
-}
-
-async function showScore(id) {
-  shell('<div class="loading">読みこみ中…</div>');
-  let d;
-  try { d = S.score = await run('getScoreSheet', S.code, id); }
-  catch (e) { document.getElementById('main').innerHTML = '<div class="err">' + errMsg(e) + '</div>'; return; }
-  const qs = d.questions;
-  document.getElementById('main').innerHTML = `
-    <div class="row"><button id="back">‹ プリントの一覧</button></div>
-    <div class="card"><b>${esc(d.print.title)}</b>　<span class="small">${esc(d.print.grade)}・${esc(d.print.unit)}・${esc(d.print.id)}・${d.total}点満点</span>
-      <div class="small">問題ごとに点数を入れます（Enterで下の人へ）。休んだ人・出していない人は空らんのままにすると、記録しません。</div></div>
-    ${d.students.length ? `<div class="scroll"><table class="grid" id="tbl"><tr><th class="l">名前</th>${qs.map(q => `<th>${circ(q.no)}<br>${q.points}点</th>`).join('')}<th>合計</th><th></th></tr>
-    ${d.students.map((s, r) => `<tr data-st="${esc(s.id)}"><td class="l" style="white-space:nowrap">${esc(s.name)}</td>
-      ${qs.map((q, c) => `<td><input class="sc" inputmode="decimal" data-r="${r}" data-c="${c}" data-max="${q.points}" data-q="${esc(q.id)}" value="${s.scores && s.scores[q.id] != null ? s.scores[q.id] : ''}"></td>`).join('')}
-      <td class="sum">−</td><td style="white-space:nowrap"><button class="small" data-full="${r}">満点</button> <button class="small" data-clear="${r}">空に</button></td></tr>`).join('')}
-    </table></div>
-    <div class="row" style="margin-top:12px"><button class="pri" id="save">保存する</button><span id="smsg"></span></div>`
-    : `<div class="card">${esc(d.print.grade)}の生徒が「生徒」シートにいません。スプレッドシートの「生徒」シートに、生徒ID・氏名・学年を入れてください。</div>`}`;
-  document.getElementById('back').onclick = () => { S.tab = 'list'; showMain(); };
-  if (!d.students.length) return;
-  const inputs = [...document.querySelectorAll('.sc')];
-  const at = (r, c) => inputs.find(i => +i.dataset.r === r && +i.dataset.c === c);
-  const sumRow = tr => {
-    let got = 0, max = 0;
-    tr.querySelectorAll('.sc').forEach(i => {
-      const v = i.value.trim(), n = Number(v.replace(/[０-９．]/g, x => String.fromCharCode(x.charCodeAt(0) - 0xFEE0)));
-      const bad = v !== '' && !(n >= 0 && n <= +i.dataset.max);
-      i.classList.toggle('bad', bad);
-      if (v !== '' && !bad) { got += n; max += +i.dataset.max; }
-    });
-    tr.querySelector('.sum').textContent = max ? got + '／' + max : '−';
-  };
-  document.querySelectorAll('#tbl tr[data-st]').forEach(sumRow);
-  inputs.forEach(i => {
-    i.oninput = () => sumRow(i.closest('tr'));
-    i.onkeydown = e => {
-      if (e.key !== 'Enter') return;
-      e.preventDefault();
-      const n = at(+i.dataset.r + 1, +i.dataset.c) || at(0, +i.dataset.c + 1);
-      if (n) { n.focus(); n.select(); }
-    };
-  });
-  document.querySelectorAll('[data-full]').forEach(b => b.onclick = () => { inputs.filter(i => i.dataset.r === b.dataset.full).forEach(i => { i.value = i.dataset.max; }); sumRow(b.closest('tr')); });
-  document.querySelectorAll('[data-clear]').forEach(b => b.onclick = () => { inputs.filter(i => i.dataset.r === b.dataset.clear).forEach(i => { i.value = ''; }); sumRow(b.closest('tr')); });
-  document.getElementById('save').onclick = async e => {
-    if (document.querySelector('.sc.bad')) return alert('赤いらんの点数を直してください（0〜配点の数）。');
-    const rows = [...document.querySelectorAll('#tbl tr[data-st]')].map(tr => {
-      const scores = {};
-      tr.querySelectorAll('.sc').forEach(i => { scores[i.dataset.q] = i.value.trim() === '' ? '' : Number(i.value.trim().replace(/[０-９．]/g, x => String.fromCharCode(x.charCodeAt(0) - 0xFEE0))); });
-      return { id: tr.dataset.st, scores: scores };
-    });
-    e.target.disabled = true;
-    const msg = document.getElementById('smsg');
-    msg.textContent = '保存しています…';
-    try {
-      const r = await run('saveScores', S.code, d.print.id, rows);
-      msg.innerHTML = `<span class="msg">${r.saved}人分を保存しました${r.removed ? '（空らんにした' + r.removed + '人分の記録を消しました）' : ''}</span>`;
-      refresh().catch(() => {});
-    } catch (err) { msg.innerHTML = '<span class="err">' + errMsg(err) + '</span>'; }
-    e.target.disabled = false;
-  };
-}
 
 // ---- 苦手な単元 ----
 async function showWeak() {
@@ -575,7 +997,7 @@ async function showWeak() {
   try { a = await run('getAnalysis', S.code, S.anGrade); }
   catch (e) { document.getElementById('an').innerHTML = '<div class="err">' + errMsg(e) + '</div>'; return; }
   const used = a.units.filter(u => u.n);
-  if (!used.length) { document.getElementById('an').innerHTML = '<div class="card">まだ点数が入っていません。プリントを採点したら「作ったプリント・点数」から点数を入れてください。</div>'; return; }
+  if (!used.length) { document.getElementById('an').innerHTML = '<div class="card">まだ点数が入っていません。単元の画面で、問題ごとの○×ボタンを押すと、ここに出ます。</div>'; return; }
   const low = used.filter(u => u.avg < a.weakRate).sort((x, y) => x.avg - y.avg);
   document.getElementById('an').innerHTML = `
     ${low.length ? `<div class="card" style="border-color:#fed7aa;background:var(--warnbg)"><b>復習したい単元</b>（クラスの平均が${Math.round(a.weakRate * 100)}%未満）<br>${low.map(u => esc(u.unit) + '（' + pct(u.avg) + '）').join('、')}</div>` : ''}
@@ -594,7 +1016,7 @@ async function showWeak() {
 // ---- はじめ ----
 (function () {
   const c = load('sk_code');
-  if (c) login(c); else showLogin();
+  if (c) login(c); else navBase(() => showLogin());
 })();
 </script>
 </body>
