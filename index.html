@@ -176,6 +176,11 @@
   /* ○×で採点 */
   [hidden] { display: none !important; }
   .qpick { flex-wrap: wrap; }
+  .exam .exam-btns { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; margin-top: 8px; }
+  .exam .exam-btns button { display: flex; flex-direction: column; align-items: flex-start; text-align: left; padding: 8px 10px; }
+  .iv-box { border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; margin: 10px 0; line-height: 1.8; }
+  .iv-q { border-top: 1px solid var(--line); padding: 8px 0; break-inside: avoid; }
+  .iv-line { border-bottom: 1px dashed #9ca3af; height: 26px; }
   .ig { flex: 0 0 100%; display: flex; flex-direction: column; gap: 6px; margin: 2px 0 0 28px; }
   .ig-key { color: var(--ng); font-weight: bold; font-size: 14px; }
   .ig:empty { display: none; }
@@ -431,7 +436,11 @@ function showMake() {
   if (!months.some(m => m.m === S.month)) S.month = months.some(m => m.m === now) ? now : (months[0] || {}).m;
   const cur = months.find(m => m.m === S.month);
   const monthBtns = `<div class="mgrid" id="mc">${months.map(m => `<button data-m="${m.m}" class="${m.m === S.month ? 'on' : ''} ${m.m === now ? 'now' : ''}">${m.m}月</button>`).join('')}</div>`;
-  shell(`${gradeChips(S.grade, 'gc')}${subjChips}${monthBtns}
+  // 小6：本番（県立中の適性検査）と同じ形の模試。Ⅰ＝国語・社会、Ⅱ＝算数・理科、どちらも50分
+  const exams = S.grade === '小6' ? (S.data.exams || []) : [];
+  const examCard = exams.length ? `<div class="card exam"><b>本番形式の模試</b>　<span class="small">県立中の適性検査と同じ形（Ⅰ＝国語・社会、Ⅱ＝算数・理科、各50分）</span>
+    <div class="exam-btns">${exams.map(e => `<button data-ex="${esc(e.exam)}" data-rd="${e.round}"><b>適性検査${esc(e.exam)}　${esc(e.label)}</b><span class="small">${esc(e.note)}</span></button>`).join('')}<button data-iv-open><b>面接の練習カード</b><span class="small">よく聞かれる質問と答え方・マナー</span></button></div></div>` : '';
+  shell(`${gradeChips(S.grade, 'gc')}${examCard}${subjChips}${monthBtns}
     ${months.length ? '' : '<div class="card">この学年・教科の単元はありません。</div>'}
     ${cur ? `<div class="mhead">${S.grade}・${cur.m}月の指導内容${cur.m === now ? '<span class="small">（今月）</span>' : ''}</div>
     <div class="small">週1回の授業の予定です。単元をえらぶと、授業プリントと宿題プリントを作れます。「問題なし」の単元は、「問題」シートに問題を足すと使えます。◎は特殊算の単元です。</div>
@@ -447,6 +456,15 @@ function showMake() {
     loading('まとめプリントを作っています…');
     try {
       const pr = await run('createReviewPrint', S.code, S.grade, u.unit);
+      refresh().catch(() => {});
+      navTo(() => { S.print = pr; S.mode = 'student'; showPrint(); });
+    } catch (e) { showMake(); alert(e.message || e); }
+  });
+  document.querySelectorAll('[data-iv-open]').forEach(b => b.onclick = () => navTo(showInterview));
+  document.querySelectorAll('[data-ex]').forEach(b => b.onclick = async () => {
+    loading('模試を作っています…');
+    try {
+      const pr = await run('createExamPrint', S.code, b.dataset.ex, Number(b.dataset.rd));
       refresh().catch(() => {});
       navTo(() => { S.print = pr; S.mode = 'student'; showPrint(); });
     } catch (e) { showMake(); alert(e.message || e); }
@@ -896,6 +914,56 @@ document.addEventListener('touchend', e => {
 });
 
 // ---- 印刷画面 ----
+// ---- 面接の練習（小6）：県立中の面接（個人または集団）の練習カード。中身は決まった文なので、サーバーには問い合わせない ----
+const INTERVIEW = {
+  aim: '県の実施要項では、面接で「6年間の一貫教育で学ぶ意欲及び適性等」をみるとされています。個人面接か集団面接かは学校によってちがいます。',
+  form: ['① 結論：はじめに、聞かれたことの答えを一言で言う（「わたしが〜と思った理由は、2つあります」）', '② 理由・体験：なぜそう思うのかを、自分の体験で説明する（いつ・どこで・何をして・どう感じたか）',
+    '③ これから：中学校でどうしたいかにつなげて終わる', '1つの答えは30秒〜1分。長く話すより、短くはっきり'],
+  qs: [
+    { q: 'この学校を志望した理由を教えてください。', aim: 'この学校で学びたい気持ちが本物か', tip: '学校説明会や見学で見たこと・聞いたことを1つ入れる。「家から近い」「親にすすめられた」だけで終わらない' },
+    { q: '中高一貫校の6年間で、どんなことをがんばりたいですか。', aim: '6年間で学ぶ意欲（面接でいちばん大事な点）', tip: '中学の3年間だけでなく、高校までの6年間を見通して話す。「〜をして、〜できるようになりたい」の形' },
+    { q: '小学校でいちばんがんばったことは何ですか。', aim: 'ねばり強さ・取り組む姿勢', tip: '結果より、どんな工夫や努力をしたかを話す。失敗したことから学んだことでもよい' },
+    { q: 'あなたの長所と短所を教えてください。', aim: '自分を見つめる力', tip: '短所は「〜なところがありますが、〜するように気をつけています」と、直そうとしていることまで言う' },
+    { q: '最近、気になったニュースは何ですか。それについてどう思いますか。', aim: '社会への関心・自分の考えをもつ力', tip: '前の日までに、新聞やテレビのニュースを1つえらんで、自分の考えを1文で言えるようにしておく' },
+    { q: '将来の夢は何ですか。そのために中学校でどんなことをしたいですか。', aim: '目標をもって学ぶ姿勢', tip: '夢がはっきりしていなくてもよい。「〜に興味があるので、中学校で〜を学んで考えたい」でよい' },
+    { q: '友だちと意見が合わないとき、あなたはどうしますか。', aim: '人と協力する力', tip: '「相手の考えを最後まで聞く → 自分の考えを理由といっしょに伝える → 両方のよいところを合わせる」の順に話す' },
+    { q: '苦手なことに、どのように取り組んでいますか。', aim: '課題にむき合う力', tip: '苦手なことを1つ正直に言い、そのために続けていること（毎日〜分、〜をしている）を具体的に言う' },
+    { q: 'この学校まで、どのように通いますか。', aim: '6年間通い続けられるか', tip: '通う方法とかかる時間を、前もって家の人と確かめておく' },
+    { q: '（集団面接）ほかの人の意見を聞いて、あなたはどう考えますか。', aim: '人の話を聞いて、自分の考えを言う力', tip: '「〇番の人の〜という意見に賛成です。わたしはさらに〜と考えます」と、前の人の意見にふれてから話す' },
+    { q: '最後に、何か伝えたいことはありますか。', aim: '意欲', tip: '「この学校で〜をがんばりたいです。よろしくお願いします」と、短く気持ちを伝えて終わる' },
+  ],
+  manners: ['入るときはノックを3回 →「失礼します」→ 礼', '名前と小学校名を、はっきり言う', 'いすには、すすめられてからすわる。背中をのばし、手はひざの上',
+    '話す人の目を見る。集団面接では、ほかの人が話しているときも、その人を見て聞く', '「です・ます」で、少し大きめの声で話す', 'わからないときは、だまらずに「少し考えてもよろしいですか」と言う', '出るときは「ありがとうございました」→ 礼 →「失礼します」'],
+  check: ['声の大きさ・はっきり話せたか', 'はじめに結論を言えたか', '自分の体験を入れられたか', '6年間でがんばりたいことが伝わったか', '姿勢・目線・あいさつ'],
+};
+function showInterview() {
+  S.ivMode = S.ivMode || 'student';
+  const I = INTERVIEW, st = S.ivMode === 'student';
+  const lines = n => Array.from({ length: n }, () => '<div class="iv-line"></div>').join('');
+  const body = st
+    ? `<div class="ph"><div><span class="tag">面接の練習カード</span> <span class="meta">桜中対策　小6</span></div><div class="meta">名前（　　　　　　　　　）</div></div>
+      <div class="iv-box"><b>答え方の型</b>${I.form.map(f => `<div>${esc(f)}</div>`).join('')}</div>
+      ${I.qs.map((x, i) => `<div class="iv-q"><div><b>${circ(i + 1)} ${esc(x.q)}</b></div><div class="small">ポイント：${esc(x.tip)}</div>
+        <div class="small" style="margin-top:4px">自分の答え（結論 → 理由・体験 → これから）</div>${lines(3)}</div>`).join('')}
+      <div class="iv-box newpage"><b>面接のマナー</b>${I.manners.map(f => `<div>□ ${esc(f)}</div>`).join('')}</div>`
+    : `<div class="ph"><div><span class="tag">講師用</span> <span class="meta">面接の練習の進め方　小6</span></div></div>
+      <div class="iv-box"><b>面接でみられること</b><div>${esc(I.aim)}</div></div>
+      <div class="iv-box"><b>進め方（1回20分ほど）</b>
+        <div>① 生徒用カードの「答え方の型」を読み、①〜⑪から今日の3問をえらぶ</div>
+        <div>② 生徒は、カードに答えのメモを書く（1問2〜3分）。メモは読み上げず、見ないで話す練習をする</div>
+        <div>③ 講師が面接官になって質問する。生徒2人のときは、1人が答えているあいだ、もう1人は下のチェック表でみる（集団面接の練習にもなる）</div>
+        <div>④ 答えのあとに、チェック表で1つほめて、1つだけ直すところを伝える。もう一度同じ質問で言い直させる</div></div>
+      <div class="iv-box"><b>チェック表（○・△）</b>${I.check.map(f => `<div>□ ${esc(f)}</div>`).join('')}</div>
+      ${I.qs.map((x, i) => `<div class="iv-q"><div><b>${circ(i + 1)} ${esc(x.q)}</b></div><div class="small">ねらい：${esc(x.aim)}</div><div class="small">答え方のポイント：${esc(x.tip)}</div></div>`).join('')}
+      <div class="iv-box"><b>面接のマナー（入室から退室まで）</b>${I.manners.map(f => `<div>□ ${esc(f)}</div>`).join('')}</div>`;
+  $app.innerHTML = `<div class="toolbar"><div class="wrap"><button id="back">‹ 戻る</button>
+    <button data-iv="student" class="${st ? 'pri' : ''}">生徒用（書きこみカード）</button><button data-iv="teacher" class="${st ? '' : 'pri'}">講師用（進め方）</button>
+    <button class="pri" id="pr" style="margin-left:auto">🖨 印刷する</button></div></div>
+    <div class="wrap"><div class="paper">${body}</div></div>`;
+  document.getElementById('back').onclick = goBack;
+  document.querySelectorAll('[data-iv]').forEach(b => b.onclick = () => { S.ivMode = b.dataset.iv; showInterview(); window.scrollTo(0, 0); });
+  document.getElementById('pr').onclick = () => window.print();
+}
 function showPrint() {
   const d = S.print, p = d.print;
   const m = (k, l) => `<button data-m="${k}" class="${S.mode === k ? 'pri' : ''}">${l}</button>`;
