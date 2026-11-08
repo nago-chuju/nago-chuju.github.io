@@ -464,7 +464,8 @@ function showMake() {
 // ---- 単元：授業プリントと宿題プリントを作る ----
 async function showUnit() {
   shell('<div class="loading">問題を読みこみ中…</div>');
-  try { S.qs = await run('getUnitQuestions', S.code, S.grade, S.unit.unit); }
+  // 問題と○×の採点記録を1回の問い合わせでまとめて読む
+  try { const d = await run('getUnit', S.code, S.grade, S.unit.unit); S.qs = d.questions; S.unitMarks = d.marks || {}; }
   catch (e) { document.getElementById('main').innerHTML = '<div class="err">' + errMsg(e) + '</div>'; return; }
   const u = S.unit;
   const section = kind => {
@@ -539,7 +540,7 @@ async function showUnit() {
 
 // ---- その場で○×：生徒をえらぶと、問題ごとに○△×が出る。押すとすぐ保存（合計と苦手な単元は自動） ----
 // 点数は「その単元の授業（宿題）の問題 全部」のプリントにまとめて記録する。押していない問題は記録しない
-async function inlineGrade(u, cards) {
+function inlineGrade(u, cards) {
   const box = document.getElementById('gst');
   const stAll = () => (S.data.students || []).filter(s => s.grade === S.grade);
   const SK = 'sk_gst_' + S.grade;
@@ -553,15 +554,13 @@ async function inlineGrade(u, cards) {
     const same = (S.data.prints || []).find(p => p.grade === S.grade && p.unit === u.unit && p.kind === kind && (p.ids || []).slice().sort().join(',') === key);
     G[kind] = { id: same ? same.id : null, ids: ids, marks: {} };
   });
-  box.innerHTML = '<div class="small">採点の記録を読みこみ中…</div>';
-  // 前に押した○×を読みこむ
-  await Promise.all(Object.keys(G).filter(k => G[k].id).map(async k => {
-    try {
-      const d = await run('getScoreSheet', S.code, G[k].id);
-      d.students.forEach(st => { if (st.scores) { G[k].marks[st.id] = {}; Object.keys(st.scores).forEach(q => { G[k].marks[st.id][q] = Number(st.scores[q]); }); } });
-    } catch (e) { /* 読めなくても、押せば新しく記録される */ }
-  }));
-  if (!document.body.contains(box)) return;   // 読みこみ中に別の画面へ移った
+  // 前に押した○×（単元を開いたときにいっしょに読んだもの）
+  Object.keys(G).forEach(k => {
+    const m = (S.unitMarks || {})[k];
+    if (!m) return;
+    G[k].id = m.id;
+    Object.keys(m.scores || {}).forEach(sid => { G[k].marks[sid] = {}; Object.keys(m.scores[sid]).forEach(q => { G[k].marks[sid][q] = Number(m.scores[sid][q]); }); });
+  });
   let toastT;
   const toast = (m, bad, ms) => {
     let t = document.querySelector('.ig-toast');
