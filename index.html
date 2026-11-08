@@ -942,7 +942,7 @@ function paperAnswer(d) {
   }).join('');
 }
 /**
- * 台本は2段がまえ。1枚目「授業カード」（一言・準備・授業の流れ・板書・つまずいたら）だけで授業ができるようにし、
+ * 台本は2段がまえ。1枚目「授業カード」（一言・準備・授業の流れ・紙に書いて見せること・つまずいたら）だけで授業ができるようにし、
  * くわしい台本（解説の進め方・話す台本・説明問題の答え方）は画面ではたたんでおく（印刷するときは開いて2枚目から）
  */
 function planHtml(p) {
@@ -965,7 +965,7 @@ function planHtml(p) {
       <div class="pp"><span class="pl">一言でいうと</span>${fmt(p.point)}</div>
       ${p.prep ? `<div class="prep"><b>準備</b>　${fmt(p.prep)}</div>` : ''}
       ${steps.length ? `<h3>授業の流れ</h3>${flowList(steps)}` : p.flow.length ? `<h3>解説の流れ</h3>${flowList(p.flow)}` : ''}
-      ${p.board.length ? `<h3>板書</h3><div class="board">${p.board.map(l => `<div>${fmt(l)}</div>`).join('')}</div>` : ''}
+      ${p.board.length ? `<h3>紙に書いて見せること</h3><div class="board">${p.board.map(l => `<div>${fmt(l)}</div>`).join('')}</div>` : ''}
       ${trips.length ? `<h3>つまずいたら</h3>${trips.map(trip).join('')}` : ''}
     </div>
     ${more ? `<details class="more newpage"><summary>くわしい台本を見る（${[steps.length && p.flow.length ? '解説の進め方' : '', p.talk.length ? '話す台本' : '', answers.length ? '説明問題の答え方' : ''].filter(Boolean).join('・')}）</summary>${more}</details>` : ''}
