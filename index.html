@@ -181,6 +181,8 @@
   .iv-box { border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; margin: 10px 0; line-height: 1.8; }
   .iv-q { border-top: 1px solid var(--line); padding: 8px 0; break-inside: avoid; }
   .iv-line { border-bottom: 1px dashed #9ca3af; height: 26px; }
+  .qp-inline { flex: 0 0 100%; margin: 6px 0 2px 28px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; cursor: auto; }
+  .qp-inline .gd-btn { margin-top: 8px; }
   .ig { flex: 0 0 100%; display: flex; flex-direction: column; gap: 6px; margin: 2px 0 0 28px; }
   .ig-key { color: var(--ng); font-weight: bold; font-size: 14px; }
   .ig:empty { display: none; }
@@ -496,7 +498,7 @@ async function showUnit() {
         <div style="flex:1;min-width:0"><div><span class="lv ${esc(q.level)}">${esc(q.level)}</span><span class="tp">${{ choice: '4択', number: '答えを書く', write: '説明' }[q.type]}</span>
         <span class="small">${esc(q.id)}・${esc(q.sub)}・${q.points}点</span></div><div class="t">${fmt(q.text)}</div></div>
         <button class="small" data-plan="${esc(q.id)}" style="margin-left:auto;white-space:nowrap">📖 台本</button>
-        <div class="ig" data-ig="${esc(q.id)}"></div></label>`).join('')
+        <div class="ig" data-ig="${esc(q.id)}"></div><div class="qp-inline" data-pi="${esc(q.id)}" hidden></div></label>`).join('')
       : `<div class="small">${kind}用の問題はまだありません。「問題」シートの「用途」に「${kind}」と入れると、ここに出ます。</div>`}</div>`;
   };
   document.getElementById('main').innerHTML = `
@@ -513,7 +515,20 @@ async function showUnit() {
   document.getElementById('back').onclick = goBack;
   document.getElementById('prep').onclick = () => showPrep();
   // 問題の横の「台本」：その問題の画面をすぐ開く（チェックボックスは切りかえない）
-  document.querySelectorAll('[data-plan]').forEach(b => b.onclick = e => { e.preventDefault(); e.stopPropagation(); S.lastPlan = b.dataset.plan; showPrep(b.dataset.plan); });
+  // 問題の横の「台本」：〇×の下に、答え・指導のポイント・解説をその場で開く（単元を開いたときに読みこみ済みなので、問い合わせはしない）
+  document.querySelectorAll('[data-plan]').forEach(b => b.onclick = e => {
+    e.preventDefault(); e.stopPropagation();   // 問題のチェックは切りかえない
+    const id = b.dataset.plan, box = document.querySelector('[data-pi="' + id + '"]'), q = S.qs.find(x => x.id === id);
+    if (!box || !q) return;
+    if (box.hidden) {
+      box.innerHTML = prepBodyHtml(q) + (q.guide && q.guide.length ? `<button class="gd-btn" data-gdb>📘 さらにわかりやすく、詳しい台本</button><div class="gd" hidden><h4>詳しい台本（この教科が苦手な先生向け）</h4>${guideHtml(q.guide)}</div>` : '');
+      const g = box.querySelector('[data-gdb]');
+      if (g) g.onclick = ev => { ev.preventDefault(); ev.stopPropagation(); const d = box.querySelector('.gd'); d.hidden = !d.hidden; };
+      box.hidden = false; b.textContent = '▲ 閉じる';
+    } else { box.hidden = true; b.textContent = '📖 台本'; }
+  });
+  // 開いた台本の中を押しても、問題のチェックが切りかわらないようにする
+  document.querySelectorAll('.qp-inline').forEach(box => box.addEventListener('click', e => { if (!e.target.closest('button')) e.preventDefault(); }));
   // 台本から戻ってきたときは、さっき見ていた問題の位置を出す
   const lp = S.lastPlan && document.querySelector('[data-plan="' + S.lastPlan + '"]');
   if (lp) window.scrollTo(0, lp.closest('.qpick').getBoundingClientRect().top + window.scrollY - 70);
@@ -788,13 +803,17 @@ function tipsOf(q) {
   return t;
 }
 function prepQHtml(q) {
-  // 選択式も「答え ア　○○」を出し、選択肢の正解にも赤い丸をつける
-  const ok = q.type === 'write' ? '' : `<div class="qp-ans"><span class="lb">答え</span><span class="ok">${fmt(keyText(q))}</span></div>`;
+  // 選択式は選択肢の正解に赤い丸をつける
   const chs = q.type === 'choice' ? `<div class="chs">${q.choices.map(c => `<div><span class="qp-ch${c.letter === q.answer ? ' ok' : ''}">${KANA[c.letter]}　${fmt(c.text)}</span></div>`).join('')}</div>` : '';
+  return `<div class="qp-text">${fmt(q.text)}</div>${fig(q.figure)}${chs}${prepBodyHtml(q)}`;
+}
+/** 台本のうち、答え・答えの例・指導のポイント・解説（単元の画面で〇×の下に開くときは、問題文はもう見えているのでこれだけ出す） */
+function prepBodyHtml(q) {
+  const ok = q.type === 'write' ? '' : `<div class="qp-ans"><span class="lb">答え</span><span class="ok">${fmt(keyText(q))}</span></div>`;
   const e = expParts(q.exp), tips = tipsOf(q);
   const model = q.type === 'write' ? `<div class="qp-model"><span class="lb">答えの例</span><span class="ok">${fmt(e.model || (e.steps.length === 1 ? e.steps[0] : ''))}</span>${q.rubric ? `<div class="small" style="margin-top:4px">採点のめやす：${fmt(q.rubric)}</div>` : ''}</div>` : '';
   const steps = q.type === 'write' && !e.model && e.steps.length === 1 ? [] : e.steps;
-  return `<div class="qp-text">${fmt(q.text)}</div>${fig(q.figure)}${chs}${ok}${model}
+  return `${ok}${model}
     ${q.ask || tips.length ? `<div class="qp-point"><h4>指導のポイント</h4><ul>${q.ask ? `<li><b>最初に聞く：</b>${fmt(q.ask)}</li>` : ''}${tips.map(t => '<li>' + fmt(t) + '</li>').join('')}</ul></div>` : ''}
     ${steps.length ? `<div class="qp-exp"><h4>解説</h4>${steps.length > 1 ? '<ol>' + steps.map(s => '<li>' + fmt(s) + '</li>').join('') + '</ol>' : fmt(steps[0])}</div>` : ''}`;
 }
